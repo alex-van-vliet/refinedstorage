@@ -176,6 +176,9 @@ public class CraftingPreviewScreen extends BaseScreen<AbstractContainerMenu> {
             case TOO_COMPLEX:
                 renderTooComplexError(poseStack, x, y, scale);
                 break;
+            case CONFLICT:
+                renderConflictError(poseStack, x, y, scale);
+                break;
             default:
                 break;
         }
@@ -186,6 +189,11 @@ public class CraftingPreviewScreen extends BaseScreen<AbstractContainerMenu> {
     private void renderTooComplexError(PoseStack poseStack, int x, int y, float scale) {
         renderString(poseStack, RenderUtils.getOffsetOnScale(x + 5, scale), RenderUtils.getOffsetOnScale(y + 21, scale), I18n.get("gui.refinedstorage.crafting_preview.error.too_complex.0"));
         renderString(poseStack, RenderUtils.getOffsetOnScale(x + 5, scale), RenderUtils.getOffsetOnScale(y + 31, scale), I18n.get("gui.refinedstorage.crafting_preview.error.too_complex.1"));
+    }
+
+    private void renderConflictError(PoseStack poseStack, int x, int y, float scale) {
+        renderString(poseStack, RenderUtils.getOffsetOnScale(x + 5, scale), RenderUtils.getOffsetOnScale(y + 21, scale), I18n.get("gui.refinedstorage.crafting_preview.error.conflict.0"));
+        renderString(poseStack, RenderUtils.getOffsetOnScale(x + 5, scale), RenderUtils.getOffsetOnScale(y + 31, scale), I18n.get("gui.refinedstorage.crafting_preview.error.conflict.1"));
     }
 
     private void renderRecursiveError(PoseStack poseStack, int x, int y, float scale, ItemStack recursedPattern) {

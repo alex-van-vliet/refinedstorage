@@ -70,6 +70,8 @@
   "gui.refinedstorage.crafting_preview.error.recursive.4": "Offending pattern:",
   "gui.refinedstorage.crafting_preview.error.too_complex.0": "The crafting task calculation was too complex",
   "gui.refinedstorage.crafting_preview.error.too_complex.1": "and was stopped to avoid server strain.",
+  "gui.refinedstorage.crafting_preview.error.conflict.0": "The crafting task contained a conflict between",
+  "gui.refinedstorage.crafting_preview.error.conflict.1": "two patterns with a common output and the same priority.",
   "gui.refinedstorage.security_manager": "Security Manager",
   "gui.refinedstorage.security_manager.configure": "Configure",
   "gui.refinedstorage.security_manager.permission.0": "Insert",
