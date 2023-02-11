@@ -264,6 +264,9 @@ public class PatternItem extends Item implements ICraftingPatternProvider {
             if (isProcessing(stack)) {
                 tooltip.add(Component.translatable("misc.refinedstorage.processing").setStyle(Styles.BLUE));
             }
+
+            tooltip.add(Component.translatable("misc.refinedstorage.pattern.priority", getPriority(stack))
+                    .setStyle(Styles.BLUE));
         } else {
             tooltip.add(Component.translatable("misc.refinedstorage.pattern.invalid").setStyle(Styles.RED));
             tooltip.add(pattern.getErrorMessage().plainCopy().setStyle(Styles.GRAY));
