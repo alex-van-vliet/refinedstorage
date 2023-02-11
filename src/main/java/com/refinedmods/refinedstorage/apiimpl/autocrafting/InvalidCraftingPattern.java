@@ -49,6 +49,11 @@ public class InvalidCraftingPattern implements ICraftingPattern {
     }
 
     @Override
+    public int getPriority() {
+        return 0;
+    }
+
+    @Override
     public List<NonNullList<ItemStack>> getInputs() {
         throw new UnsupportedOperationException(EXCEPTION_MESSAGE);
     }

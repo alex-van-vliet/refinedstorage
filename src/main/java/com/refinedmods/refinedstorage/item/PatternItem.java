@@ -48,6 +48,7 @@ public class PatternItem extends Item implements ICraftingPatternProvider {
     private static final String NBT_FLUID_OUTPUT_SLOT = "FluidOutput_%d";
     private static final String NBT_EXACT = "Exact";
     private static final String NBT_PROCESSING = "Processing";
+    private static final String NBT_PRIORITY = "Priority";
     private static final String NBT_ALLOWED_TAGS = "AllowedTags";
 
     private static final int VERSION = 1;
@@ -171,6 +172,22 @@ public class PatternItem extends Item implements ICraftingPatternProvider {
         }
 
         pattern.getTag().putBoolean(NBT_EXACT, exact);
+    }
+
+    public static int getPriority(ItemStack pattern) {
+        if (!pattern.hasTag() || !pattern.getTag().contains(NBT_PRIORITY)) {
+            return 0;
+        }
+
+        return pattern.getTag().getInt(NBT_PRIORITY);
+    }
+
+    public static void setPriority(ItemStack pattern, int priority) {
+        if (!pattern.hasTag()) {
+            pattern.setTag(new CompoundTag());
+        }
+
+        pattern.getTag().putInt(NBT_PRIORITY, priority);
     }
 
     public static void setToCurrentVersion(ItemStack pattern) {

@@ -31,6 +31,7 @@ public class CraftingPatternFactory {
 
         boolean processing = PatternItem.isProcessing(stack);
         boolean exact = PatternItem.isExact(stack);
+        int priority = PatternItem.getPriority(stack);
         AllowedTagList allowedTagList = PatternItem.getAllowedTags(stack);
 
         List<NonNullList<ItemStack>> inputs = new ArrayList<>();
@@ -86,6 +87,7 @@ public class CraftingPatternFactory {
             context,
             processing,
             exact,
+            priority,
             recipe,
             new CraftingPatternInputs(inputs, fluidInputs),
             new CraftingPatternOutputs(outputs, byproducts, fluidOutputs),

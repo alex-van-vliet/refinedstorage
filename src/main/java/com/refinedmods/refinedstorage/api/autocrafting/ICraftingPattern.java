@@ -41,6 +41,11 @@ public interface ICraftingPattern {
     boolean isProcessing();
 
     /**
+     * @return the priority of the pattern
+     */
+    int getPriority();
+
+    /**
      * @return the inputs per slot
      */
     List<NonNullList<ItemStack>> getInputs();

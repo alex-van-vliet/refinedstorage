@@ -28,11 +28,13 @@ public class CraftingPattern implements ICraftingPattern {
     private final CraftingPatternOutputs outputs;
     @Nullable
     private final AllowedTagList allowedTagList;
+    private final int priority;
 
-    public CraftingPattern(CraftingPatternContext context, boolean processing, boolean exact, @Nullable CraftingRecipe recipe, CraftingPatternInputs inputs, CraftingPatternOutputs outputs, @Nullable AllowedTagList allowedTagList) {
+    public CraftingPattern(CraftingPatternContext context, boolean processing, boolean exact, int priority, @Nullable CraftingRecipe recipe, CraftingPatternInputs inputs, CraftingPatternOutputs outputs, @Nullable AllowedTagList allowedTagList) {
         this.context = context;
         this.processing = processing;
         this.exact = exact;
+        this.priority = priority;
         this.recipe = recipe;
         this.inputs = inputs;
         this.outputs = outputs;
@@ -68,6 +70,11 @@ public class CraftingPattern implements ICraftingPattern {
     @Override
     public boolean isProcessing() {
         return processing;
+    }
+
+    @Override
+    public int getPriority() {
+        return priority;
     }
 
     @Override
@@ -167,6 +174,10 @@ public class CraftingPattern implements ICraftingPattern {
             return false;
         }
 
+        if (other.getPriority() != priority) {
+            return false;
+        }
+
         if ((other.getInputs().size() != inputs.getInputs().size()) ||
             (other.getFluidInputs().size() != inputs.getFluidInputs().size()) ||
             (other.getOutputs().size() != outputs.getOutputs().size()) ||
@@ -237,6 +248,7 @@ public class CraftingPattern implements ICraftingPattern {
 
         result = 31 * result + (processing ? 1 : 0);
         result = 31 * result + (exact ? 1 : 0);
+        result = 31 * result + priority;
 
         for (List<ItemStack> inputsForSlot : inputs.getInputs()) {
             for (ItemStack input : inputsForSlot) {
