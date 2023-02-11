@@ -50,7 +50,13 @@ public class CraftingCalculator {
         this.network = network;
         this.requested = requested;
         this.quantity = quantity;
-        this.patterns = network.getCraftingManager().getPatterns(requested.getItem());
+        if (requested.getItem() != null) {
+            this.patterns = network.getCraftingManager().getPatterns(requested.getItem());
+        } else if (requested.getFluid() != null) {
+            this.patterns = network.getCraftingManager().getPatterns(requested.getFluid());
+        } else {
+            this.patterns = null;
+        }
     }
 
     private boolean hasConflict(List<ICraftingPattern> patterns) {
