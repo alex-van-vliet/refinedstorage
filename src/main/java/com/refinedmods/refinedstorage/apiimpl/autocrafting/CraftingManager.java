@@ -440,6 +440,13 @@ public class CraftingManager implements ICraftingManager {
             }
         }
 
+        for (Map.Entry<CraftingManager.ItemStackKey, List<ICraftingPattern>> entry : itemPatternsByOutput.entrySet()) {
+            entry.getValue().sort(Comparator.comparingInt(ICraftingPattern::getPriority).reversed());
+        }
+        for (Map.Entry<CraftingManager.FluidStackKey, List<ICraftingPattern>> entry : fluidPatternsByOutput.entrySet()) {
+            entry.getValue().sort(Comparator.comparingInt(ICraftingPattern::getPriority).reversed());
+        }
+
         this.network.getItemStorageCache().reAttachListeners();
         this.network.getFluidStorageCache().reAttachListeners();
     }
