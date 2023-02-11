@@ -12,8 +12,8 @@ public class CraftingTaskFactory implements ICraftingTaskFactory {
     public static final ResourceLocation ID = new ResourceLocation(RS.ID, "v6");
 
     @Override
-    public ICalculationResult create(INetwork network, ICraftingRequestInfo requested, int quantity, ICraftingPattern pattern) {
-        CraftingCalculator calculator = new CraftingCalculator(network, requested, quantity, pattern);
+    public ICalculationResult create(INetwork network, ICraftingRequestInfo requested, int quantity) {
+        CraftingCalculator calculator = new CraftingCalculator(network, requested, quantity);
         return calculator.calculate();
     }
 

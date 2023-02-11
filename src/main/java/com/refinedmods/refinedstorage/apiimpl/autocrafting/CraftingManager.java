@@ -149,7 +149,7 @@ public class CraftingManager implements ICraftingManager {
             return new CalculationResult(CalculationResultType.NO_PATTERN);
         }
 
-        return factory.create(network, API.instance().createCraftingRequestInfo(stack, quantity), quantity, pattern);
+        return factory.create(network, API.instance().createCraftingRequestInfo(stack, quantity), quantity);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class CraftingManager implements ICraftingManager {
             return new CalculationResult(CalculationResultType.NO_PATTERN);
         }
 
-        return factory.create(network, API.instance().createCraftingRequestInfo(stack, quantity), quantity, pattern);
+        return factory.create(network, API.instance().createCraftingRequestInfo(stack, quantity), quantity);
     }
 
     @Override

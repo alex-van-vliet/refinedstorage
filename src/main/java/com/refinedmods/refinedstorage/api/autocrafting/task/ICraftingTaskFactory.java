@@ -18,7 +18,7 @@ public interface ICraftingTaskFactory {
      * @param quantity  the quantity
      * @return the calculation result
      */
-    ICalculationResult create(INetwork network, ICraftingRequestInfo requested, int quantity, ICraftingPattern pattern);
+    ICalculationResult create(INetwork network, ICraftingRequestInfo requested, int quantity);
 
     /**
      * Returns a crafting task for a given NBT tag.

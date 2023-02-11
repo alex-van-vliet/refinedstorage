@@ -45,11 +45,11 @@ public class CraftingCalculator {
 
     private long calculationStarted = -1;
 
-    public CraftingCalculator(INetwork network, ICraftingRequestInfo requested, int quantity, ICraftingPattern pattern) {
+    public CraftingCalculator(INetwork network, ICraftingRequestInfo requested, int quantity) {
         this.network = network;
         this.requested = requested;
         this.quantity = quantity;
-        this.pattern = pattern;
+        this.pattern = network.getCraftingManager().getPattern(requested.getItem());
     }
 
     public ICalculationResult calculate() {
