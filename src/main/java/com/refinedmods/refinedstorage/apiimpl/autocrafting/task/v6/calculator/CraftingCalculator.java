@@ -32,7 +32,8 @@ public class CraftingCalculator {
     private final INetwork network;
     private final ICraftingRequestInfo requested;
     private final int quantity;
-    private final ICraftingPattern pattern;
+    // The patterns list is sorted in the crafting manager by descending priority order
+    private final List<ICraftingPattern> patterns;
 
     private final Set<ICraftingPattern> patternsUsed = new HashSet<>();
 
@@ -49,7 +50,23 @@ public class CraftingCalculator {
         this.network = network;
         this.requested = requested;
         this.quantity = quantity;
-        this.pattern = network.getCraftingManager().getPattern(requested.getItem());
+        this.patterns = network.getCraftingManager().getPatterns(requested.getItem());
+    }
+
+    private boolean hasConflict(List<ICraftingPattern> patterns) {
+        if (patterns.size() < 2) {
+            return false;
+        }
+
+        int previousPriority = patterns.get(0).getPriority();
+        for (ICraftingPattern pattern : patterns.subList(1, patterns.size())) {
+            int priority = pattern.getPriority();
+            if (priority == previousPriority)
+                return true;
+            previousPriority = priority;
+        }
+
+        return false;
     }
 
     public ICalculationResult calculate() {
@@ -61,11 +78,14 @@ public class CraftingCalculator {
         IStackList<ItemStack> storageSource = network.getItemStorageCache().getList().copy();
         IStackList<FluidStack> fluidStorageSource = network.getFluidStorageCache().getList().copy();
 
-        int qtyPerCraft = getQuantityPerCraft(requested.getItem(), requested.getFluid(), pattern);
+        if (hasConflict(patterns))
+            return new CalculationResult(CalculationResultType.CONFLICT);
+
+        int qtyPerCraft = getQuantityPerCraft(requested.getItem(), requested.getFluid(), patterns.get(0));
         int qty = ((quantity - 1) / qtyPerCraft) + 1;
 
         try {
-            calculateInternal(qty, storageSource, fluidStorageSource, results, fluidResults, pattern, true);
+            calculateInternal(qty, storageSource, fluidStorageSource, results, fluidResults, patterns.get(0), true);
         } catch (CraftingCalculatorException e) {
             return new CalculationResult(e.getType(), e.getRecursedPattern());
         }
@@ -85,7 +105,7 @@ public class CraftingCalculator {
         return new CalculationResult(
             CalculationResultType.OK,
             previewElements,
-            new CraftingTask(network, requested, quantity, pattern, nodes, toExtractInitial, toExtractInitialFluids)
+            new CraftingTask(network, requested, quantity, patterns.get(0), nodes, toExtractInitial, toExtractInitialFluids)
         );
     }
 
