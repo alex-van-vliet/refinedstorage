@@ -115,7 +115,16 @@ public interface ICraftingManager {
     void invalidate();
 
     /**
-     * Return a crafting pattern from an item stack.
+     * Return the crafting patterns from an item stack.
+     *
+     * @param pattern the stack to get a pattern for
+     * @return the crafting patterns, or null if none is found
+     */
+    @Nullable
+    List<ICraftingPattern> getPatterns(ItemStack pattern);
+
+    /**
+     * Return the first crafting pattern from an item stack.
      *
      * @param pattern the stack to get a pattern for
      * @return the crafting pattern, or null if none is found
@@ -124,7 +133,16 @@ public interface ICraftingManager {
     ICraftingPattern getPattern(ItemStack pattern);
 
     /**
-     * Return a crafting pattern from a fluid stack.
+     * Return the crafting patterns from a fluid stack.
+     *
+     * @param pattern the stack to get a pattern for
+     * @return the crafting patterns, or null if none is found
+     */
+    @Nullable
+    List<ICraftingPattern> getPatterns(FluidStack pattern);
+
+    /**
+     * Return the first crafting pattern from a fluid stack.
      *
      * @param pattern the stack to get a pattern for
      * @return the crafting pattern, or null if none is found

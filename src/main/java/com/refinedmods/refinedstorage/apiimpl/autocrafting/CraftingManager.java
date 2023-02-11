@@ -42,8 +42,8 @@ public class CraftingManager implements ICraftingManager {
     private final Map<ICraftingPattern, Set<ICraftingPatternContainer>> patternToContainer = new HashMap<>();
 
     private final List<ICraftingPattern> patterns = new ArrayList<>();
-    private final Map<FluidStackKey, ICraftingPattern> fluidPatternsByOutput = new HashMap<>();
-    private final Map<ItemStackKey, ICraftingPattern> itemPatternsByOutput = new HashMap<>();
+    private final Map<FluidStackKey, List<ICraftingPattern>> fluidPatternsByOutput = new HashMap<>();
+    private final Map<ItemStackKey, List<ICraftingPattern>> itemPatternsByOutput = new HashMap<>();
 
     private final Map<UUID, ICraftingTask> tasks = new LinkedHashMap<>();
     private final List<ICraftingTask> tasksToAdd = new ArrayList<>();
@@ -420,12 +420,14 @@ public class CraftingManager implements ICraftingManager {
 
                 for (ItemStack output : pattern.getOutputs()) {
                     network.getItemStorageCache().getCraftablesList().add(output);
-                    this.itemPatternsByOutput.put(new ItemStackKey(output), pattern);
+                    this.itemPatternsByOutput.computeIfAbsent(new ItemStackKey(output), (k) -> new ArrayList<>())
+                            .add(pattern);
                 }
 
                 for (FluidStack output : pattern.getFluidOutputs()) {
                     network.getFluidStorageCache().getCraftablesList().add(output);
-                    this.fluidPatternsByOutput.put(new FluidStackKey(output), pattern);
+                    this.fluidPatternsByOutput.computeIfAbsent(new FluidStackKey(output), (k) -> new ArrayList<>())
+                            .add(pattern);
                 }
 
                 Set<ICraftingPatternContainer> containersForPattern = this.patternToContainer.computeIfAbsent(pattern, key -> new LinkedHashSet<>());
@@ -463,13 +465,33 @@ public class CraftingManager implements ICraftingManager {
 
     @Nullable
     @Override
-    public ICraftingPattern getPattern(ItemStack pattern) {
+    public List<ICraftingPattern> getPatterns(ItemStack pattern) {
         return itemPatternsByOutput.get(new ItemStackKey(pattern));
     }
 
     @Nullable
     @Override
-    public ICraftingPattern getPattern(FluidStack pattern) {
+    public ICraftingPattern getPattern(ItemStack pattern) {
+        var patterns = getPatterns(pattern);
+        if (patterns == null) {
+            return null;
+        }
+        return patterns.get(0);
+    }
+
+    @Nullable
+    @Override
+    public List<ICraftingPattern> getPatterns(FluidStack pattern) {
         return fluidPatternsByOutput.get(new FluidStackKey(pattern));
+    }
+
+    @Nullable
+    @Override
+    public ICraftingPattern getPattern(FluidStack pattern) {
+        var patterns = getPatterns(pattern);
+        if (patterns == null) {
+            return null;
+        }
+        return patterns.get(0);
     }
 }
